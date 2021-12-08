@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package kaiwa;
+
+option go_package ="./chatpb";
+
+import "message.proto";
+
+message UserRequest{
+    User user_details = 1;
+}
+
+message UserResponse{
+    User user_details = 1;
+    string token = 2;
+    string status = 3;
+}
+
+service UserService {
+    rpc UserLogin(UserRequest) returns (UserResponse) {}
+    rpc UserSignUp(UserRequest) returns (UserResponse) {}
+}

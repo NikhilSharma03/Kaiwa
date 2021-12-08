@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package kaiwa;
+
+option go_package ="./chatpb";
+
+message User {
+    string name = 1;
+    string email = 2;
+    string password = 3;
+    string profile_image = 4;
+    repeated Chat chat_details = 5;
+}
+
+message Chat{
+    User sender = 1;
+    User receiver = 2;
+    string message = 3;
+}

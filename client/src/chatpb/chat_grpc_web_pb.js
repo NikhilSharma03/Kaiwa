@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for chat
+ * @fileoverview gRPC-Web generated client stub for kaiwa
  * @enhanceable
  * @public
  */
@@ -15,8 +15,10 @@
 const grpc = {};
 grpc.web = require('grpc-web');
 
+
+var message_pb = require('./message_pb.js')
 const proto = {};
-proto.chat = require('./hello_pb.js');
+proto.kaiwa = require('./chat_pb.js');
 
 /**
  * @param {string} hostname
@@ -26,7 +28,7 @@ proto.chat = require('./hello_pb.js');
  * @struct
  * @final
  */
-proto.chat.ChatClient =
+proto.kaiwa.ChatServiceClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -52,7 +54,7 @@ proto.chat.ChatClient =
  * @struct
  * @final
  */
-proto.chat.ChatPromiseClient =
+proto.kaiwa.ChatServicePromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -73,63 +75,63 @@ proto.chat.ChatPromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.chat.ChatRequest,
- *   !proto.chat.ChatRequest>}
+ *   !proto.kaiwa.ChatRequest,
+ *   !proto.kaiwa.ChatResponse>}
  */
-const methodDescriptor_Chat_SendMessage = new grpc.web.MethodDescriptor(
-  '/chat.Chat/SendMessage',
+const methodDescriptor_ChatService_SendMessage = new grpc.web.MethodDescriptor(
+  '/kaiwa.ChatService/SendMessage',
   grpc.web.MethodType.UNARY,
-  proto.chat.ChatRequest,
-  proto.chat.ChatRequest,
+  proto.kaiwa.ChatRequest,
+  proto.kaiwa.ChatResponse,
   /**
-   * @param {!proto.chat.ChatRequest} request
+   * @param {!proto.kaiwa.ChatRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.chat.ChatRequest.deserializeBinary
+  proto.kaiwa.ChatResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.chat.ChatRequest} request The
+ * @param {!proto.kaiwa.ChatRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.chat.ChatRequest)}
+ * @param {function(?grpc.web.RpcError, ?proto.kaiwa.ChatResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.chat.ChatRequest>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.kaiwa.ChatResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.chat.ChatClient.prototype.sendMessage =
+proto.kaiwa.ChatServiceClient.prototype.sendMessage =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/chat.Chat/SendMessage',
+      '/kaiwa.ChatService/SendMessage',
       request,
       metadata || {},
-      methodDescriptor_Chat_SendMessage,
+      methodDescriptor_ChatService_SendMessage,
       callback);
 };
 
 
 /**
- * @param {!proto.chat.ChatRequest} request The
+ * @param {!proto.kaiwa.ChatRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.chat.ChatRequest>}
+ * @return {!Promise<!proto.kaiwa.ChatResponse>}
  *     Promise that resolves to the response
  */
-proto.chat.ChatPromiseClient.prototype.sendMessage =
+proto.kaiwa.ChatServicePromiseClient.prototype.sendMessage =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/chat.Chat/SendMessage',
+      '/kaiwa.ChatService/SendMessage',
       request,
       metadata || {},
-      methodDescriptor_Chat_SendMessage);
+      methodDescriptor_ChatService_SendMessage);
 };
 
 
-module.exports = proto.chat;
+module.exports = proto.kaiwa;
 

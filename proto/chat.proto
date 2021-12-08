@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package kaiwa;
+
+import "message.proto";
+
+option go_package ="./chatpb";
+
+message ChatRequest {
+    Chat chat_details = 1;
+    string token = 2;
+}
+
+message ChatResponse {
+    Chat chat_details = 1;
+    string status = 4;
+}
+
+service ChatService {
+    rpc SendMessage(ChatRequest) returns (ChatResponse) {}
+}

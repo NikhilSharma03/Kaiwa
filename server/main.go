@@ -16,7 +16,8 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	chatpb.RegisterChatServer(grpcServer, &service.Server{})
+	chatpb.RegisterChatServiceServer(grpcServer, &service.ChatServer{})
+	chatpb.RegisterUserServiceServer(grpcServer, &service.UserServer{})
 
 	if err := grpcServer.Serve(net); err != nil {
 		log.Fatal("Something went wrong.", err.Error())
