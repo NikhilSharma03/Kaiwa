@@ -133,5 +133,66 @@ proto.kaiwa.ChatServicePromiseClient.prototype.sendMessage =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.kaiwa.User,
+ *   !proto.kaiwa.GetChatResponse>}
+ */
+const methodDescriptor_ChatService_GetMessage = new grpc.web.MethodDescriptor(
+  '/kaiwa.ChatService/GetMessage',
+  grpc.web.MethodType.UNARY,
+  message_pb.User,
+  proto.kaiwa.GetChatResponse,
+  /**
+   * @param {!proto.kaiwa.User} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.kaiwa.GetChatResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.kaiwa.User} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.kaiwa.GetChatResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.kaiwa.GetChatResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.kaiwa.ChatServiceClient.prototype.getMessage =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/kaiwa.ChatService/GetMessage',
+      request,
+      metadata || {},
+      methodDescriptor_ChatService_GetMessage,
+      callback);
+};
+
+
+/**
+ * @param {!proto.kaiwa.User} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.kaiwa.GetChatResponse>}
+ *     Promise that resolves to the response
+ */
+proto.kaiwa.ChatServicePromiseClient.prototype.getMessage =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/kaiwa.ChatService/GetMessage',
+      request,
+      metadata || {},
+      methodDescriptor_ChatService_GetMessage);
+};
+
+
 module.exports = proto.kaiwa;
 
