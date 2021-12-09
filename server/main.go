@@ -11,11 +11,16 @@ import (
 	"github.com/NikhilSharma03/Kaiwa/chatpb/chatpb"
 	"github.com/NikhilSharma03/Kaiwa/db"
 	"github.com/NikhilSharma03/Kaiwa/service"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	client, err := db.ConnectDB("mongodb://localhost:27017")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	client, err := db.ConnectDB(os.Getenv("MONGO_DB_URL"))
 	if err != nil {
 		log.Fatal("Something went wrong", err.Error())
 	}
