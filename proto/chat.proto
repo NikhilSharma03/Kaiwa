@@ -16,6 +16,11 @@ message ChatResponse {
     string status = 4;
 }
 
+message GetChatResponse {
+    repeated Chat chat_details = 1;
+}
+
 service ChatService {
     rpc SendMessage(ChatRequest) returns (ChatResponse) {}
+    rpc GetMessage(User) returns (GetChatResponse) {}
 }

@@ -28,7 +28,7 @@ goog.exportSymbol('proto.kaiwa.User', null, global);
  * @constructor
  */
 proto.kaiwa.User = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.kaiwa.User.repeatedFields_, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.kaiwa.User, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -59,13 +59,6 @@ if (goog.DEBUG && !COMPILED) {
    */
   proto.kaiwa.Chat.displayName = 'proto.kaiwa.Chat';
 }
-
-/**
- * List of repeated fields within this message type.
- * @private {!Array<number>}
- * @const
- */
-proto.kaiwa.User.repeatedFields_ = [5];
 
 
 
@@ -101,9 +94,7 @@ proto.kaiwa.User.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     email: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    chatDetailsList: jspb.Message.toObjectList(msg.getChatDetailsList(),
-    proto.kaiwa.Chat.toObject, includeInstance)
+    password: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -155,11 +146,6 @@ proto.kaiwa.User.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setPassword(value);
-      break;
-    case 5:
-      var value = new proto.kaiwa.Chat;
-      reader.readMessage(value,proto.kaiwa.Chat.deserializeBinaryFromReader);
-      msg.addChatDetails(value);
       break;
     default:
       reader.skipField();
@@ -216,14 +202,6 @@ proto.kaiwa.User.serializeBinaryToWriter = function(message, writer) {
     writer.writeString(
       4,
       f
-    );
-  }
-  f = message.getChatDetailsList();
-  if (f.length > 0) {
-    writer.writeRepeatedMessage(
-      5,
-      f,
-      proto.kaiwa.Chat.serializeBinaryToWriter
     );
   }
 };
@@ -298,44 +276,6 @@ proto.kaiwa.User.prototype.getPassword = function() {
  */
 proto.kaiwa.User.prototype.setPassword = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * repeated Chat chat_details = 5;
- * @return {!Array<!proto.kaiwa.Chat>}
- */
-proto.kaiwa.User.prototype.getChatDetailsList = function() {
-  return /** @type{!Array<!proto.kaiwa.Chat>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.kaiwa.Chat, 5));
-};
-
-
-/**
- * @param {!Array<!proto.kaiwa.Chat>} value
- * @return {!proto.kaiwa.User} returns this
-*/
-proto.kaiwa.User.prototype.setChatDetailsList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 5, value);
-};
-
-
-/**
- * @param {!proto.kaiwa.Chat=} opt_value
- * @param {number=} opt_index
- * @return {!proto.kaiwa.Chat}
- */
-proto.kaiwa.User.prototype.addChatDetails = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.kaiwa.Chat, opt_index);
-};
-
-
-/**
- * Clears the list making it empty but non-null.
- * @return {!proto.kaiwa.User} returns this
- */
-proto.kaiwa.User.prototype.clearChatDetailsList = function() {
-  return this.setChatDetailsList([]);
 };
 
 
