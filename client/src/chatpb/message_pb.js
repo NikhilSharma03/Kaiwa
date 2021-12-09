@@ -98,10 +98,10 @@ proto.kaiwa.User.prototype.toObject = function(opt_includeInstance) {
  */
 proto.kaiwa.User.toObject = function(includeInstance, msg) {
   var f, obj = {
-    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    email: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    profileImage: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 4, ""),
     chatDetailsList: jspb.Message.toObjectList(msg.getChatDetailsList(),
     proto.kaiwa.Chat.toObject, includeInstance)
   };
@@ -142,19 +142,19 @@ proto.kaiwa.User.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setEmail(value);
+      msg.setName(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPassword(value);
+      msg.setEmail(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setProfileImage(value);
+      msg.setPassword(value);
       break;
     case 5:
       var value = new proto.kaiwa.Chat;
@@ -190,28 +190,28 @@ proto.kaiwa.User.prototype.serializeBinary = function() {
  */
 proto.kaiwa.User.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getName();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getEmail();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getPassword();
+  f = message.getEmail();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getProfileImage();
+  f = message.getPassword();
   if (f.length > 0) {
     writer.writeString(
       4,
@@ -230,10 +230,10 @@ proto.kaiwa.User.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string name = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.kaiwa.User.prototype.getName = function() {
+proto.kaiwa.User.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -242,16 +242,16 @@ proto.kaiwa.User.prototype.getName = function() {
  * @param {string} value
  * @return {!proto.kaiwa.User} returns this
  */
-proto.kaiwa.User.prototype.setName = function(value) {
+proto.kaiwa.User.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string email = 2;
+ * optional string name = 2;
  * @return {string}
  */
-proto.kaiwa.User.prototype.getEmail = function() {
+proto.kaiwa.User.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -260,16 +260,16 @@ proto.kaiwa.User.prototype.getEmail = function() {
  * @param {string} value
  * @return {!proto.kaiwa.User} returns this
  */
-proto.kaiwa.User.prototype.setEmail = function(value) {
+proto.kaiwa.User.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string password = 3;
+ * optional string email = 3;
  * @return {string}
  */
-proto.kaiwa.User.prototype.getPassword = function() {
+proto.kaiwa.User.prototype.getEmail = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -278,16 +278,16 @@ proto.kaiwa.User.prototype.getPassword = function() {
  * @param {string} value
  * @return {!proto.kaiwa.User} returns this
  */
-proto.kaiwa.User.prototype.setPassword = function(value) {
+proto.kaiwa.User.prototype.setEmail = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string profile_image = 4;
+ * optional string password = 4;
  * @return {string}
  */
-proto.kaiwa.User.prototype.getProfileImage = function() {
+proto.kaiwa.User.prototype.getPassword = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -296,7 +296,7 @@ proto.kaiwa.User.prototype.getProfileImage = function() {
  * @param {string} value
  * @return {!proto.kaiwa.User} returns this
  */
-proto.kaiwa.User.prototype.setProfileImage = function(value) {
+proto.kaiwa.User.prototype.setPassword = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
@@ -373,7 +373,8 @@ proto.kaiwa.Chat.toObject = function(includeInstance, msg) {
   var f, obj = {
     sender: (f = msg.getSender()) && proto.kaiwa.User.toObject(includeInstance, f),
     receiver: (f = msg.getReceiver()) && proto.kaiwa.User.toObject(includeInstance, f),
-    message: jspb.Message.getFieldWithDefault(msg, 3, "")
+    message: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    time: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -424,6 +425,10 @@ proto.kaiwa.Chat.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setMessage(value);
       break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTime(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -473,6 +478,13 @@ proto.kaiwa.Chat.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       3,
+      f
+    );
+  }
+  f = message.getTime();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -568,6 +580,24 @@ proto.kaiwa.Chat.prototype.getMessage = function() {
  */
 proto.kaiwa.Chat.prototype.setMessage = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string time = 4;
+ * @return {string}
+ */
+proto.kaiwa.Chat.prototype.getTime = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.kaiwa.Chat} returns this
+ */
+proto.kaiwa.Chat.prototype.setTime = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
