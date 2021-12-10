@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"time"
 
@@ -35,8 +34,6 @@ func (*ChatServer) SendMessage(ctx context.Context, req *kaiwapb.ChatRequest) (*
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
-
-	fmt.Println(strings.Trim(data.Email, " \n"), sender)
 
 	if strings.Trim(data.Email, " \n") != sender {
 		return nil, status.Errorf(codes.Unauthenticated, "Unauthenticated")
