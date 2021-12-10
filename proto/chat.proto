@@ -2,18 +2,32 @@ syntax = "proto3";
 
 package kaiwa;
 
-option go_package ="./chatpb";
+option go_package ="./kaiwapb";
 
-import "message.proto";
+message Chat{
+    string sender = 1;
+    string receiver = 2;
+    string message = 3;
+    string time = 4;
+}
+
+message GetMessageRequest{
+    string email = 1;
+}
 
 message ChatRequest {
-    Chat chat_details = 1;
-    string token = 2;
+    string sender = 1;
+    string receiver = 2;
+    string message = 3;
+    string time = 4;
+    string token = 5;
 }
 
 message ChatResponse {
-    Chat chat_details = 1;
-    string status = 4;
+    string sender = 1;
+    string receiver = 2;
+    string message = 3;
+    string time = 4;
 }
 
 message GetChatResponse {
@@ -22,5 +36,5 @@ message GetChatResponse {
 
 service ChatService {
     rpc SendMessage(ChatRequest) returns (ChatResponse) {}
-    rpc GetMessage(User) returns (GetChatResponse) {}
+    rpc GetMessage(GetMessageRequest) returns (GetChatResponse) {}
 }

@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import React, { useEffect } from "react";
 import './App.css';
+import { UserRequest } from "./kaiwapb/user_pb"
+import { UserServiceClient } from "./kaiwapb/user_grpc_web_pb"
 
 function App() {
+
+  const SignUP = () => {
+    const request = new UserRequest();
+    request.setName("test");
+    request.setPassword("test");
+    request.setEmail("test@test.com");
+
+    const client = new UserServiceClient("http://localhost:8080", {}, {});
+    client.userSignUp(request, {}, (err, ret) => {
+      console.log(err)
+      console.log(ret)
+    });
+  }
+
+
+  useEffect(() => {
+    SignUP()
+  }, [])
+    
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
     </div>
   );
 }
