@@ -1,4 +1,4 @@
-.home__container {
+.login__container {
   min-height: 100vh;
   width: 100%;
   background-color: #262626;
@@ -7,26 +7,25 @@
   justify-content: space-between;
 }
 
-.home__header {
+.login__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.home__header h1 {
+.login__header h1 {
   padding: 2rem;
   font-size: 3rem;
-  color: white;
   text-transform: uppercase;
   letter-spacing: 5px;
 }
 
-.home__header h1 a {
+.login__header h1 a {
   color: white;
   text-decoration: none;
 }
 
-.home__user--button {
+.login__user--button {
   margin-right: 2rem;
   padding: 1.25rem 1.5rem;
   font-size: 1.5rem;
@@ -40,38 +39,53 @@
   transition: all 0.4s;
 }
 
-.home__user--button:hover {
+.login__user--button:hover {
   background-color: #49b9a1;
 }
 
-.home__content {
+.login__content {
   display: flex;
-  margin-bottom: 10rem;
-  align-items: center;
-}
-
-.home__content--left {
-  flex: 1;
-  padding-left: 15rem;
-}
-
-.home__content--right {
-  flex: 2;
-}
-
-.home__content--right {
-  display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5rem;
 }
 
-.home__content--left h1 {
-  font-size: 6rem;
-  color: #fff;
+.login__content h1 {
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 2rem;
   margin-bottom: 3rem;
 }
 
-.home__footer {
+.login__content form {
+  display: flex;
+  flex-direction: column;
+  width: 50rem;
+}
+
+.login__content button {
+  background-color: #49b9a1;
+  color: #222;
+  font-weight: bold;
+  font-family: inherit;
+  padding: 1rem;
+  margin-top: 2rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+
+.login__content button:hover {
+  background-color: #3f8d7b;
+}
+
+.login__footer {
   background-color: #44d7b6;
   height: 1rem;
 }

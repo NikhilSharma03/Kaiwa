@@ -7,8 +7,8 @@ function Home() {
     return (
         <section className="home__container">
             <header className="home__header">
-                <h1>Kaiwa</h1>
-                <Link className="home__user--button" to="/login">SignUp</Link>
+                <h1><Link to="/">Kaiwa</Link></h1>
+                <Link className="home__user--button" to="/signup">SignUp</Link>
             </header>
             <div className="home__content">
                 <div className="home__content--left">
