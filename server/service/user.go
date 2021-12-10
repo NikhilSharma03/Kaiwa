@@ -74,7 +74,7 @@ func (*UserServer) UserLogin(ctx context.Context, req *kaiwapb.UserRequest) (*ka
 
 	var user model.User
 	if err := userDB.FindOne(context.Background(), bson.D{{"email", email}}).Decode(&user); err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
+		return nil, status.Errorf(codes.Internal, "No user found with provided email")
 	}
 
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))

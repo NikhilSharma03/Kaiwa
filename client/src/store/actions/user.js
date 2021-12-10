@@ -36,3 +36,15 @@ export const LogIn = ({email, password}) => {
         });
     }
 }
+
+export const ClearLoginError = () => {
+    return {
+        type: actionTypes.USER_LOGIN_ERROR_CLEAR
+    }
+}
+
+export const ClearSignUpError = () => {
+    return {
+        type: actionTypes.USER_SIGNUP_ERROR_CLEAR
+    }
+}

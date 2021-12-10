@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import "./SignUp.css"
 import { useSelector, useDispatch } from "react-redux"
 import * as actionCreators from "./../../store/actions/user"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import InputBox from '../../components/InputBox/InputBox'
+import ErrorModal from '../../components/ErrorModal/ErrorModal'
 
 function SignUp() {
     const [name, setName] = useState("")
@@ -12,12 +13,9 @@ function SignUp() {
     const error = useSelector(state => state.user.signup_error)
     const token = useSelector(state => state.user.token)
 
-    if(error){
-        console.log("Error:",error)
-    }
-
     const dispatch = useDispatch()
     const onSignUp = (email, password, name) => dispatch(actionCreators.SignUp({name,email,password}))
+    const onErrorClear = () => dispatch(actionCreators.ClearSignUpError())
 
     const onSubmitHandler = (event) => {
         event.preventDefault()
@@ -27,10 +25,17 @@ function SignUp() {
         onSignUp(email,password,name)
     }
 
-    console.log("Token:", token)
+    const clearErrorHandler = () => {
+        onErrorClear()
+    }
 
+    if(token){
+        return <Navigate to="/chat" />
+    }
+    
     return (
-        <section class="signup__container">
+        <section className="signup__container">
+            {error && <ErrorModal msg={error} clearHandler={clearErrorHandler}/>}
             <header className="signup__header">
                 <h1><Link to="/">Kaiwa</Link></h1>
                 <Link className="signup__user--button" to="/login">Login</Link>

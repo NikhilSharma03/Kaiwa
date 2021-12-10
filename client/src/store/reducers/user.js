@@ -43,6 +43,18 @@ const reducer = (state=initialState, action) => {
                 login_error: action.message
             }
 
+        case actionTypes.USER_SIGNUP_ERROR_CLEAR:
+            return {
+                ...state,
+                signup_error: null
+            }   
+        
+        case actionTypes.USER_LOGIN_ERROR_CLEAR:
+            return {
+                ...state,
+                login_error: null
+            }   
+
         default:
             return state
     }
