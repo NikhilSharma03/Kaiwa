@@ -1,50 +1,57 @@
 import React, { useEffect, useState } from 'react'
+import "./Chat.css"
 import { GetMessageRequest } from "./../../kaiwapb/chat_pb"
 import { ChatServiceClient } from "./../../kaiwapb/chat_grpc_web_pb"
+import { Link, Navigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 function Chat() {
-    const [chat, setChat] = useState([])
+    const token = useSelector(state => state.user.token)
     const [error, setError] = useState(null)
     const [contacts, setContacts] = useState([])
     
     useEffect(() => {
         const request = new GetMessageRequest();
         request.setEmail("test@test.com");
+        request.setToken("test@test.com");
 
         const client = new ChatServiceClient("http://localhost:8080", {}, {});
         client.getMessage(request, {}, (err, ret) => {
             if(err){
-                console.log(err)
+                setError(err)
             } else {
                 const data = ret.array[0]
                 if(data.length > 0){
-                    let chatData = []
                     let people = new Set()
-
                     for(let item of data){
                         const sender = item[0]
                         const receiver = item[1]
-                        const message = item[2]
-                        const time = item[3]
-                        chatData.push({sender, receiver, message, time})
                         people.add(sender)
                         people.add(receiver)
                     }
-                    
-                    setChat(chatData)
                     setContacts([...people])
                 }
             }
         });
     }, [])
 
-    console.log("Chats: ", chat)
+    if(!token){
+        return <Navigate to="/login" />
+    }
+
     console.log("Contacts: ", contacts)
     
     return (
-        <div>
-            
-        </div>
+        <section className="chat__container">
+            <header className="chat__header">
+                <h1><Link to="/">Kaiwa</Link></h1>
+                <Link className="chat__user--button" to="/logout">LogOut</Link>
+            </header>
+            <div className="chat__content">
+                
+            </div>
+            <div className="chat__footer"></div>
+        </section>
     )
 }
 

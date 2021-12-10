@@ -14,6 +14,10 @@ export const SignUp = ({name, email, password}) => {
             if(err){
                 dispatch({type:actionTypes.USER_SIGNUP_ERROR, message: err.message}) 
             } else {
+                localStorage.setItem("id", ret.array[0]) 
+                localStorage.setItem("name", ret.array[1]) 
+                localStorage.setItem("email", ret.array[2]) 
+                localStorage.setItem("token", ret.array[4]) 
                 dispatch({type: actionTypes.USER_SIGNUP, data: {id: ret.array[0], name: ret.array[1], email: ret.array[2], token: ret.array[4]}})
             }
         });
@@ -31,6 +35,10 @@ export const LogIn = ({email, password}) => {
             if(err){
                 dispatch({type:actionTypes.USER_LOGIN_ERROR, message: err.message}) 
             } else {
+                localStorage.setItem("id", ret.array[0]) 
+                localStorage.setItem("name", ret.array[1]) 
+                localStorage.setItem("email", ret.array[2]) 
+                localStorage.setItem("token", ret.array[4]) 
                 dispatch({type: actionTypes.USER_LOGIN, data: {id: ret.array[0], name: ret.array[1], email: ret.array[2], token: ret.array[4]}})
             }
         });
@@ -46,5 +54,22 @@ export const ClearLoginError = () => {
 export const ClearSignUpError = () => {
     return {
         type: actionTypes.USER_SIGNUP_ERROR_CLEAR
+    }
+}
+
+export const AutoLogin = () => {
+    const id = localStorage.getItem("id")
+    const name = localStorage.getItem("name")
+    const email = localStorage.getItem("email")
+    const token = localStorage.getItem("token")
+
+    return {
+        type: actionTypes.USER_LOGIN, 
+        data: {
+            id, 
+            name, 
+            email, 
+            token
+        }
     }
 }

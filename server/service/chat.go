@@ -65,6 +65,16 @@ func (*ChatServer) SendMessage(ctx context.Context, req *kaiwapb.ChatRequest) (*
 
 func (*ChatServer) GetMessage(ctx context.Context, req *kaiwapb.GetMessageRequest) (*kaiwapb.GetChatResponse, error) {
 	chatDB := db.GetDB().Collection("chats")
+	token := req.GetToken()
+	tdata, err := helpers.ExtractTokenMetadata(token)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	if strings.Trim(tdata.Email, " \n") != req.GetEmail() {
+		return nil, status.Errorf(codes.Unauthenticated, "Unauthenticated")
+	}
+
 	var data []*kaiwapb.Chat
 
 	cur, err := chatDB.Find(context.Background(), bson.D{{"receiver", req.GetEmail()}})

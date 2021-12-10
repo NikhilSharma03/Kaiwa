@@ -13,6 +13,7 @@ message Chat{
 
 message GetMessageRequest{
     string email = 1;
+    string token = 2;
 }
 
 message ChatRequest {

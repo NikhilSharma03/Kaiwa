@@ -377,7 +377,8 @@ proto.kaiwa.GetMessageRequest.prototype.toObject = function(opt_includeInstance)
  */
 proto.kaiwa.GetMessageRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    email: jspb.Message.getFieldWithDefault(msg, 1, "")
+    email: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    token: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -418,6 +419,10 @@ proto.kaiwa.GetMessageRequest.deserializeBinaryFromReader = function(msg, reader
       var value = /** @type {string} */ (reader.readString());
       msg.setEmail(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setToken(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -454,6 +459,13 @@ proto.kaiwa.GetMessageRequest.serializeBinaryToWriter = function(message, writer
       f
     );
   }
+  f = message.getToken();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -472,6 +484,24 @@ proto.kaiwa.GetMessageRequest.prototype.getEmail = function() {
  */
 proto.kaiwa.GetMessageRequest.prototype.setEmail = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string token = 2;
+ * @return {string}
+ */
+proto.kaiwa.GetMessageRequest.prototype.getToken = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.kaiwa.GetMessageRequest} returns this
+ */
+proto.kaiwa.GetMessageRequest.prototype.setToken = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
