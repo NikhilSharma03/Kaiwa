@@ -10,6 +10,7 @@ function ChatContact({name, img, email}) {
                     <img src={img} alt="profile" />
                 </div>
                 <h1>{name}</h1>
+                <p>{email}</p>
             </div>
         </Link>
     )

@@ -42,8 +42,8 @@ function Login() {
             <div className="login__content">
                 <h1>LogIn</h1>
                 <form onSubmit={onSubmitHandler}>
-                    <InputBox value={email} onChange={event => setEmail(event.target.value)} placeholder="Email"/>
-                    <InputBox value={password} onChange={event => setPassword(event.target.value)} placeholder="Password"/>
+                    <InputBox value={email} type="email" onChange={event => setEmail(event.target.value)} placeholder="Email"/>
+                    <InputBox value={password} type="password" onChange={event => setPassword(event.target.value)} placeholder="Password"/>
                     <button type="submit">LogIn</button>
                 </form>
             </div>

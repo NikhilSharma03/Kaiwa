@@ -47,6 +47,10 @@ func (*ChatServer) SendMessage(ctx context.Context, req *kaiwapb.ChatRequest) (*
 		return nil, status.Errorf(codes.NotFound, "No user found with receiver email")
 	}
 
+	if sender == receiver {
+		return nil, status.Errorf(codes.NotFound, "You cannot send message to yourself")
+	}
+
 	chat := kaiwapb.Chat{Sender: sender, Receiver: receiver, Message: message, Time: time}
 
 	_, erro := chatDB.InsertOne(context.Background(), chat)

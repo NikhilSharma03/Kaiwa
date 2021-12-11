@@ -19,6 +19,9 @@ export const SignUp = ({name, email, password}) => {
                 localStorage.setItem("email", ret.array[2]) 
                 localStorage.setItem("token", ret.array[4]) 
                 dispatch({type: actionTypes.USER_SIGNUP, data: {id: ret.array[0], name: ret.array[1], email: ret.array[2], token: ret.array[4]}})
+                setTimeout(() => {
+                   LogOut() 
+                }, 1000 * 60 * 60* 60)
             }
         });
     }
@@ -40,6 +43,9 @@ export const LogIn = ({email, password}) => {
                 localStorage.setItem("email", ret.array[2]) 
                 localStorage.setItem("token", ret.array[4]) 
                 dispatch({type: actionTypes.USER_LOGIN, data: {id: ret.array[0], name: ret.array[1], email: ret.array[2], token: ret.array[4]}})
+                setTimeout(() => {
+                    LogOut() 
+                 }, 1000 * 60 * 60* 60)
             }
         });
     }
@@ -71,5 +77,22 @@ export const AutoLogin = () => {
             email, 
             token
         }
+    }
+}
+
+const LogOut = () => {
+    localStorage.removeItem("id")
+    localStorage.removeItem("name")
+    localStorage.removeItem("email")
+    localStorage.removeItem("token")
+
+    return {
+        type: actionTypes.USER_LOGOUT
+    }
+}
+
+export const LogOutHandler = () => {
+    return dispatch => {
+        dispatch(LogOut())
     }
 }

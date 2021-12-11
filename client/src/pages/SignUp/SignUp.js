@@ -44,8 +44,8 @@ function SignUp() {
                 <h1>SignUP</h1>
                 <form onSubmit={onSubmitHandler}>
                     <InputBox value={name} onChange={event => setName(event.target.value)} placeholder="Name"/>
-                    <InputBox value={email} onChange={event => setEmail(event.target.value)} placeholder="Email"/>
-                    <InputBox value={password} onChange={event => setPassword(event.target.value)} placeholder="Password"/>
+                    <InputBox value={email} type="email" onChange={event => setEmail(event.target.value)} placeholder="Email"/>
+                    <InputBox value={password} type="password" onChange={event => setPassword(event.target.value)} placeholder="Password"/>
                     <button type="submit">SignUp</button>
                 </form>
             </div>

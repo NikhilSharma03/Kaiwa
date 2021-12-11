@@ -52,6 +52,9 @@ function Chat() {
                 <Link className="chat__user--button" to="/logout">LogOut</Link>
             </header>
             <div className="chat__content">
+                <div className="chat__new--container">
+                    <Link to="/new_chat">Start New Chat</Link>
+                </div>
                 {contacts.length > 0 ? (<div className="chat__user--main">
                     {
                         contacts.map(item => {

@@ -46,6 +46,7 @@
 
 .chat__content {
   display: flex;
+  flex-direction: column;
   margin: 10rem 0;
   align-items: center;
 }
@@ -65,4 +66,18 @@
 .chat__user--main {
   width: 50%;
   margin: 0 auto;
+}
+
+.chat__new--container {
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
+.chat__new--container a {
+  padding: 1.5rem;
+  background-color: #44d7b6;
+  text-decoration: none;
+  color: #262626;
+  font-weight: bold;
+  font-size: 1.5rem;
 }

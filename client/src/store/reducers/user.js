@@ -54,6 +54,17 @@ const reducer = (state=initialState, action) => {
                 ...state,
                 login_error: null
             }   
+        
+        case actionTypes.USER_LOGOUT:
+            return {
+                ...state,
+                token: null,
+                userID: null,
+                email: null,
+                name: null,
+                signup_error: null,
+                login_error: null
+            }
 
         default:
             return state

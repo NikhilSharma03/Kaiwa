@@ -8,6 +8,8 @@ import Chat from "./pages/Chat/Chat"
 import SingleChat from "./pages/SingleChat/SingleChat"
 import { useSelector, useDispatch } from "react-redux"
 import * as actionCreators from "./store/actions/user"
+import LogOut from "./pages/LogOut/LogOut";
+import NewChat from "./pages/NewChat/NewChat";
 
 function App() {
   const dispatch = useDispatch()
@@ -23,7 +25,9 @@ function App() {
       <Routes>
         {token && <Route path="/chat/:id" element={<SingleChat />} />}
         {token && <Route path="/chat" element={<Chat />} />}
+        {token && <Route path="/new_chat" element={<NewChat />} />}
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/logout" element={<LogOut />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Navigate to="/" />} />
