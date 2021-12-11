@@ -1,0 +1,32 @@
+version: "3"
+services:
+  proxy:
+    build: ./proxy
+    ports:
+      - "8080:8080"
+    links:
+      - "server"
+
+  server:
+    build: ./server
+    volumes:
+      - ./server/:/go/src/kaiwa/server
+    ports:
+      - "9090:9090"
+    container_name: "server"
+
+  client:
+    build: ./client
+    volumes:
+      - ./client:/client
+    ports:
+      - "3000:3000"
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:

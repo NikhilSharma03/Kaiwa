@@ -1,11 +1,11 @@
 #!/bin/sh
 
-CLIENT_OUTDIR=client/src/chatpb
-SERVER_OUTPUT_DIR=server/chatpb
+CLIENT_OUTDIR=client/src/kaiwapb
+SERVER_OUTPUT_DIR=server/
 
 mkdir -p ${CLIENT_OUTDIR} ${SERVER_OUTPUT_DIR}
 
-protoc --proto_path=proto chat.proto user.proto message.proto \
+protoc --proto_path=proto chat.proto user.proto \
     --js_out=import_style=commonjs:${CLIENT_OUTDIR} \
     --grpc-web_out=import_style=commonjs,mode=grpcwebtext:${CLIENT_OUTDIR} \
     --go_out=plugins=grpc:${SERVER_OUTPUT_DIR}

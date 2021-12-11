@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/NikhilSharma03/Kaiwa/chatpb/chatpb"
 	"github.com/NikhilSharma03/Kaiwa/db"
 	"github.com/NikhilSharma03/Kaiwa/helpers"
+	"github.com/NikhilSharma03/Kaiwa/kaiwapb"
 	"github.com/NikhilSharma03/Kaiwa/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -15,17 +15,25 @@ import (
 )
 
 type UserServer struct {
-	chatpb.UnimplementedUserServiceServer
+	kaiwapb.UnimplementedUserServiceServer
 }
 
-func (*UserServer) UserSignUp(ctx context.Context, req *chatpb.UserRequest) (*chatpb.UserResponse, error) {
+func (*UserServer) UserSignUp(ctx context.Context, req *kaiwapb.UserRequest) (*kaiwapb.UserResponse, error) {
 	userDB := db.GetDB().Collection("users")
-	name := req.GetUserDetails().GetName()
-	email := req.GetUserDetails().GetEmail()
-	password := req.GetUserDetails().GetPassword()
+	name := req.GetName()
+	email := req.GetEmail()
+	password := req.GetPassword()
 
 	if name == "" || email == "" || password == "" {
 		return nil, status.Errorf(codes.Aborted, "Invalid Inputs")
+	}
+
+	isEmailExists, erro := userDB.CountDocuments(context.Background(), bson.D{{"email", email}})
+	if erro != nil {
+		return nil, status.Errorf(codes.Internal, erro.Error())
+	}
+	if isEmailExists > 0 {
+		return nil, status.Errorf(codes.NotFound, "User already exist with provided email")
 	}
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -38,7 +46,6 @@ func (*UserServer) UserSignUp(ctx context.Context, req *chatpb.UserRequest) (*ch
 	}
 
 	_, err := userDB.InsertOne(context.Background(), user)
-
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
@@ -48,17 +55,18 @@ func (*UserServer) UserSignUp(ctx context.Context, req *chatpb.UserRequest) (*ch
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	return &chatpb.UserResponse{
-		UserDetails: &chatpb.User{Name: user.Name, Email: user.Email, Id: user.ID.Hex()},
-		Status:      "Created User.",
-		Token:       token,
+	return &kaiwapb.UserResponse{
+		Name:  user.Name,
+		Email: user.Email,
+		Id:    user.ID.Hex(),
+		Token: token,
 	}, nil
 }
 
-func (*UserServer) UserLogin(ctx context.Context, req *chatpb.UserRequest) (*chatpb.UserResponse, error) {
+func (*UserServer) UserLogin(ctx context.Context, req *kaiwapb.UserRequest) (*kaiwapb.UserResponse, error) {
 	userDB := db.GetDB().Collection("users")
-	email := req.GetUserDetails().GetEmail()
-	password := req.GetUserDetails().GetPassword()
+	email := req.GetEmail()
+	password := req.GetPassword()
 
 	if email == "" || password == "" {
 		return nil, status.Errorf(codes.Aborted, "Invalid Inputs")
@@ -66,7 +74,7 @@ func (*UserServer) UserLogin(ctx context.Context, req *chatpb.UserRequest) (*cha
 
 	var user model.User
 	if err := userDB.FindOne(context.Background(), bson.D{{"email", email}}).Decode(&user); err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
+		return nil, status.Errorf(codes.Internal, "No user found with provided email")
 	}
 
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
@@ -79,9 +87,10 @@ func (*UserServer) UserLogin(ctx context.Context, req *chatpb.UserRequest) (*cha
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	return &chatpb.UserResponse{
-		UserDetails: &chatpb.User{Name: user.Name, Email: user.Email, Id: user.ID.Hex()},
-		Status:      "User Login Successful.",
-		Token:       token,
+	return &kaiwapb.UserResponse{
+		Name:  user.Name,
+		Email: user.Email,
+		Id:    user.ID.Hex(),
+		Token: token,
 	}, nil
 }

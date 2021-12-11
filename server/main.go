@@ -8,8 +8,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/NikhilSharma03/Kaiwa/chatpb/chatpb"
 	"github.com/NikhilSharma03/Kaiwa/db"
+	"github.com/NikhilSharma03/Kaiwa/kaiwapb"
 	"github.com/NikhilSharma03/Kaiwa/service"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -32,8 +32,8 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	chatpb.RegisterChatServiceServer(grpcServer, &service.ChatServer{})
-	chatpb.RegisterUserServiceServer(grpcServer, &service.UserServer{})
+	kaiwapb.RegisterChatServiceServer(grpcServer, &service.ChatServer{})
+	kaiwapb.RegisterUserServiceServer(grpcServer, &service.UserServer{})
 
 	go func() {
 		fmt.Println("Starting gRPC Server...")

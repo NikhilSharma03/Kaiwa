@@ -5,26 +5,28 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NikhilSharma03/Kaiwa/chatpb/chatpb"
 	"github.com/NikhilSharma03/Kaiwa/db"
 	"github.com/NikhilSharma03/Kaiwa/helpers"
+	"github.com/NikhilSharma03/Kaiwa/kaiwapb"
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type ChatServer struct {
-	chatpb.UnimplementedChatServiceServer
+	kaiwapb.UnimplementedChatServiceServer
 }
 
-func (*ChatServer) SendMessage(ctx context.Context, req *chatpb.ChatRequest) (*chatpb.ChatResponse, error) {
+func (*ChatServer) SendMessage(ctx context.Context, req *kaiwapb.ChatRequest) (*kaiwapb.ChatResponse, error) {
 	chatDB := db.GetDB().Collection("chats")
+	userDB := db.GetDB().Collection("users")
 	token := req.GetToken()
-	sender := req.GetChatDetails().GetSender()
-	receiver := req.GetChatDetails().GetReceiver()
-	message := req.GetChatDetails().GetMessage()
+	sender := req.GetSender()
+	receiver := req.GetReceiver()
+	message := req.GetMessage()
+	time := time.Now().String()
 
-	if sender.Email == "" || message == "" || receiver.Email == "" {
+	if sender == "" || message == "" || receiver == "" {
 		return nil, status.Errorf(codes.Aborted, "Invalid Input")
 	}
 
@@ -33,36 +35,60 @@ func (*ChatServer) SendMessage(ctx context.Context, req *chatpb.ChatRequest) (*c
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	if strings.Trim(data.Email, " \n") != sender.GetEmail() {
+	if strings.Trim(data.Email, " \n") != sender {
 		return nil, status.Errorf(codes.Unauthenticated, "Unauthenticated")
 	}
 
-	chat := chatpb.Chat{Sender: sender, Receiver: receiver, Message: message, Time: time.Now().String()}
+	isReceiverExists, err := userDB.CountDocuments(context.Background(), bson.D{{"email", receiver}})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+	if isReceiverExists <= 0 {
+		return nil, status.Errorf(codes.NotFound, "No user found with receiver email")
+	}
+
+	if sender == receiver {
+		return nil, status.Errorf(codes.NotFound, "You cannot send message to yourself")
+	}
+
+	chat := kaiwapb.Chat{Sender: sender, Receiver: receiver, Message: message, Time: time}
 
 	_, erro := chatDB.InsertOne(context.Background(), chat)
 	if erro != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	return &chatpb.ChatResponse{
-		Status:      "Message Sent",
-		ChatDetails: &chat,
+	return &kaiwapb.ChatResponse{
+		Sender:   sender,
+		Receiver: receiver,
+		Message:  message,
+		Time:     time,
 	}, nil
 
 }
 
-func (*ChatServer) GetMessage(ctx context.Context, req *chatpb.User) (*chatpb.GetChatResponse, error) {
+func (*ChatServer) GetMessage(ctx context.Context, req *kaiwapb.GetMessageRequest) (*kaiwapb.GetChatResponse, error) {
 	chatDB := db.GetDB().Collection("chats")
-	cur, err := chatDB.Find(context.Background(), bson.D{{}})
+	token := req.GetToken()
+	tdata, err := helpers.ExtractTokenMetadata(token)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
 
-	var data []*chatpb.Chat
+	if strings.Trim(tdata.Email, " \n") != req.GetEmail() {
+		return nil, status.Errorf(codes.Unauthenticated, "Unauthenticated")
+	}
+
+	var data []*kaiwapb.Chat
+
+	cur, err := chatDB.Find(context.Background(), bson.D{{"receiver", req.GetEmail()}})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
 
 	for cur.Next(context.TODO()) {
 		//Create a value into which the single document can be decoded
-		var elem chatpb.Chat
+		var elem kaiwapb.Chat
 		err := cur.Decode(&elem)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, err.Error())
@@ -79,7 +105,31 @@ func (*ChatServer) GetMessage(ctx context.Context, req *chatpb.User) (*chatpb.Ge
 	//Close the cursor once finished
 	cur.Close(context.TODO())
 
-	return &chatpb.GetChatResponse{
+	scur, err := chatDB.Find(context.Background(), bson.D{{"sender", req.GetEmail()}})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	for scur.Next(context.TODO()) {
+		//Create a value into which the single document can be decoded
+		var elem kaiwapb.Chat
+		err := scur.Decode(&elem)
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, err.Error())
+		}
+
+		data = append(data, &elem)
+
+	}
+
+	if err := scur.Err(); err != nil {
+		return nil, status.Errorf(codes.Internal, err.Error())
+	}
+
+	//Close the cursor once finished
+	scur.Close(context.TODO())
+
+	return &kaiwapb.GetChatResponse{
 		ChatDetails: data,
 	}, nil
 }

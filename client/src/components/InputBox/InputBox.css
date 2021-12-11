@@ -1,0 +1,14 @@
+.input__box {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid #44d7b6;
+  margin-bottom: 2rem;
+  outline: none;
+}
+
+.input__box:focus {
+  border-bottom: 1px solid #35a38b;
+}
