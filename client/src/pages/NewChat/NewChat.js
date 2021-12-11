@@ -6,7 +6,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom"
 import InputBox from '../../components/InputBox/InputBox'
 import ErrorModal from '../../components/ErrorModal/ErrorModal'
 
-function SingleChat(props) {
+function NewChat(props) {
     const [receiver, setReceiver] = useState("") 
     const [message, setMessage] = useState("") 
     const [error, setError] = useState(null)
@@ -56,6 +56,6 @@ function SingleChat(props) {
     )
 }
 
-export default SingleChat
+export default NewChat
 
 
