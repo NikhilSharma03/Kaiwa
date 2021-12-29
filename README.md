@@ -29,3 +29,23 @@
 <img src="https://github.com/NikhilSharma03/Kaiwa/blob/main/assets/banner.png" alt="image" >
 
 </div>
+
+## Setup and Installation
+
+First install all the client dependency
+
+```
+cd client
+```   
+
+and then,
+
+```
+npm install
+```   
+
+Now use docker-compose (with build) using,
+
+```
+docker-compose up --build
+```   
